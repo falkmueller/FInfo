@@ -1,0 +1,18 @@
+ <div class="top-bar">
+  <div class="top-bar-left">
+    <ul class="dropdown menu" data-dropdown-menu>
+        <li><a href="#">Monitor</a></li>    
+    </ul>
+  </div>
+  <div class="top-bar-right">
+    <ul class="dropdown menu" data-dropdown-menu>
+        <li class="menu-text"><span id="time"></span></li>  
+      <li><a href="javascript:;"><i class="fa fa-cogs"></i></a>
+        <ul class="menu vertical">
+          <li><a href="<%= app.router.buildUrl('user') %>">Mein Profil</a></li>
+          <li><a href="<%= app.router.buildUrl('logout') %>">Logout</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
