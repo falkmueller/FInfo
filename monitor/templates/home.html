@@ -1,0 +1,22 @@
+ <% _(sites).each(function(site, key) { %>
+    <div class="expanded row home_row home_row_<%= (key % 4) + 1 %>" data-site-id="<%=site.id%>">
+       <div class="small-2 large-1 columns">
+           <img class="site_icon" src="img/standard_icon.png" style="width: 100%;" />
+
+        </div> 
+        <div class="small-10 large-5 columns">
+            <strong><%=site.name%></strong><br/>
+            Title: <span class="site_title">wird geladen...</span><br/>
+            last check: <span class="site_check">wird geladen...</span>
+        </div> 
+       <div class="small-10 large-5 columns">
+           CPU: <span class="site_cpu">wird geladen...</span><br/>
+           RAM: <span class="site_ram">wird geladen...</span><br/>
+           Storage: <span class="site_storage">wird geladen...</span>
+       </div>
+
+       <div class="small-2 large-1 columns">
+           <a href="#"><i class="fa fa-area-chart fa-5x"></i></a>
+       </div>
+   </div>
+ <% }) %>

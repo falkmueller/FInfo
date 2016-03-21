@@ -5,10 +5,41 @@ app.view.home = Backbone.View.extend({
     },
     
     render: function(){
-        app.library.GetData("test/test");
+        var template_data = {};
+        template_data.sites = app.library.GetData("sites/get").data;
         
-        this.$el.html(app.library.renderTemplate("home.html"));
+        this.$el.html(app.library.renderTemplate("home.html", template_data));
+        
+        this.set_stats();
     },
+    
+    set_stats: function(){
+        var me = this;
+        this.$("[data-site-id]").each(function(c, elem){
+                me.load_stats(parseInt($(elem).attr("data-site-id")));
+            });
+    },
+    
+    load_stats: function(id){
+        var data = app.library.GetData("stat/ping", {id: id}).data;
+        
+        if(!data || !data.available){
+            //TODO: Fehler im Frontend markieren
+            return;
+        }
+        
+        this.$("div[data-site-id=" + id + "] .site_check").html(moment().format("HH:mm"));
+        
+        if(data.title){
+            this.$("div[data-site-id=" + id + "] .site_title").html(data.title);
+        } else {
+            this.$("div[data-site-id=" + id + "] .site_title").html("keine Angabe");
+        }
+        
+        if(data.icon){
+            this.$("div[data-site-id=" + id + "] .site_icon").attr("src", data.icon);
+        }
+    }
 });
 
 app.view.topbar = Backbone.View.extend({

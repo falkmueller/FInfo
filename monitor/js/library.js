@@ -80,6 +80,11 @@ app.library.redirect = function(url, wait) {
     setTimeout(function () {app.router.navigate(url, true); }, wait);
 }
 
+app.library.reload =  function(delay) {
+    if (!delay) {delay = 0;}
+    setTimeout(function(){window.location.reload()}, delay);
+}
+
 /*Extension #########################################################*/
 $.fn.serializeObject = function()
 {
