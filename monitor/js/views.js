@@ -38,8 +38,38 @@ app.view.home = Backbone.View.extend({
             this.$("div[data-site-id=" + id + "] .site_storage").html("kann nicht ermittelt werden");
             return false;
         } 
+  
+        if(data.load && data.load.now){
+            this.$("div[data-site-id=" + id + "] .site_cpu").html(data.load.now + '%');
+        } else {
+            this.$("div[data-site-id=" + id + "] .site_cpu").html("kann nicht ermittelt werden");            
+        }
         
-        //TODO: setzen
+        if(data.ram && data.ram.total && data.ram.free){
+            var percent = Math.round((data.ram.total - data.ram.free) / data.ram.total * 100) /100;
+            this.$("div[data-site-id=" + id + "] .site_ram").html(percent + '%');
+        } else {
+            this.$("div[data-site-id=" + id + "] .site_ram").html("kann nicht ermittelt werden");            
+        }
+        
+        if(data.mount){
+            var size = 0;
+            var used = 0;
+            var devices = [];
+            $(data.mount).each(function(c, mount){
+                if(devices.indexOf(mount.device) < 0 && mount.device != 'none'){
+                    if(mount.size){ size += mount.size; }
+                    if(mount.used){ used += mount.used; }
+                    devices.push(mount.device);
+                }
+                
+            });
+            
+            var percent = Math.round(used / size * 100) /100;
+            this.$("div[data-site-id=" + id + "] .site_storage").html(percent + '%');
+        } else {
+            this.$("div[data-site-id=" + id + "] .site_storage").html("kann nicht ermittelt werden");
+        }
     },
     
     ping_site: function(id){

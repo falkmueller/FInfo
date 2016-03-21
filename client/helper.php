@@ -75,18 +75,20 @@ class app {
     public function run($request){
         $linfo = new \Linfo\Linfo($settings);
         $parser = $linfo->getParser();
+        
+        $data = array("available" => true);
 
         if(empty($_REQUEST["type"]) || $_REQUEST["type"] == "basics"){
-            $data["cpu"] = $parser->getCPU();
             $data["ram"] = $parser->getRam();
-            $data["hd"] = $parser->getHD();
+            $data["load"] = $parser->getLoad();
             $data["mount"] = $parser->getMounts();
         }
         
         if(empty($_REQUEST["type"])){
+            $data["cpu"] = $parser->getCPU();
+            $data["hd"] = $parser->getHD();
             $data["upTime"] = $parser->getUpTime();
             $data["Temp"] = $parser->getTemps();
-            $data["load"] = $parser->getLoad();
             $data["net"] = $parser->getNet();
             $data["process"] = $parser->getProcessStats();
             $data["distro"] = $parser->getDistro();
