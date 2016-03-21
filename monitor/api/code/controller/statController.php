@@ -10,21 +10,30 @@ class statController {
         $response =  new response();
         
         $id = intval($_GET["id"]);
-        
-        
         $clientDomain = new \code\domain\client();
         $sitesDomain = new \code\domain\sites();
         $site_data = $sitesDomain->get($id);
         if(!$site_data || count($site_data) == 0){
             return $response;
         }
-        $response->data = $clientDomain->pingPage($site_data[0]["url"]);
+        $response->data = $clientDomain->pingPage($site_data[0]);
         
         return $response;
     }
     
-    public function getBaseDataAction(){
+    public function basicsAction(){
+        $response =  new response();
         
+        $id = intval($_GET["id"]);
+        $clientDomain = new \code\domain\client();
+        $sitesDomain = new \code\domain\sites();
+        $site_data = $sitesDomain->get($id);
+        if(!$site_data || count($site_data) == 0){
+            return $response;
+        }
+        $response->data = $clientDomain->getBasics($site_data[0]);
+        
+        return $response;
     }
     
 }

@@ -1,8 +1,9 @@
  <% _(sites).each(function(site, key) { %>
     <div class="expanded row home_row home_row_<%= (key % 4) + 1 %>" data-site-id="<%=site.id%>">
        <div class="small-2 large-1 columns">
-           <img class="site_icon" src="img/standard_icon.png" style="width: 100%;" />
-
+           <a href="javascript:;" data-site-refresh="<%=site.id%>">
+               <img class="site_icon" src="img/standard_icon.png" style="width: 100%;" />
+           </a>
         </div> 
         <div class="small-10 large-5 columns">
             <strong><%=site.name%></strong><br/>
@@ -16,7 +17,7 @@
        </div>
 
        <div class="small-2 large-1 columns">
-           <a href="#"><i class="fa fa-area-chart fa-5x"></i></a>
+           <a href="<%= app.router.buildUrl('site', {id: site.id}) %>"><i class="fa fa-area-chart fa-5x"></i></a>
        </div>
    </div>
  <% }) %>

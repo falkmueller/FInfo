@@ -76,24 +76,29 @@ class app {
         $linfo = new \Linfo\Linfo($settings);
         $parser = $linfo->getParser();
 
-        $data["cpu"] = $parser->getCPU();
-        $data["ram"] = $parser->getRam();
-        $data["upTime"] = $parser->getUpTime();
-        $data["Temp"] = $parser->getTemps();
-        $data["hd"] = $parser->getHD();
-        $data["mount"] = $parser->getMounts();
-        $data["load"] = $parser->getLoad();
-        $data["net"] = $parser->getNet();
-        $data["process"] = $parser->getProcessStats();
-        $data["distro"] = $parser->getDistro();
-        $data["model"] = $parser->getModel();
-        $data["ip"] = $parser->getAccessedIP();
-        $data["phpversion"] = $parser->getPhpVersion();
-        $data["op"] = $parser->getOS();
-        $data["cpu_architecture"] = $parser->getCPUArchitecture();
-        $data["hostname"] = $parser->getHostName();
-
-        if($_REQUEST["phpinfo"]){
+        if(empty($_REQUEST["type"]) || $_REQUEST["type"] == "basics"){
+            $data["cpu"] = $parser->getCPU();
+            $data["ram"] = $parser->getRam();
+            $data["hd"] = $parser->getHD();
+            $data["mount"] = $parser->getMounts();
+        }
+        
+        if(empty($_REQUEST["type"])){
+            $data["upTime"] = $parser->getUpTime();
+            $data["Temp"] = $parser->getTemps();
+            $data["load"] = $parser->getLoad();
+            $data["net"] = $parser->getNet();
+            $data["process"] = $parser->getProcessStats();
+            $data["distro"] = $parser->getDistro();
+            $data["model"] = $parser->getModel();
+            $data["ip"] = $parser->getAccessedIP();
+            $data["phpversion"] = $parser->getPhpVersion();
+            $data["op"] = $parser->getOS();
+            $data["cpu_architecture"] = $parser->getCPUArchitecture();
+            $data["hostname"] = $parser->getHostName();
+        }
+        
+        if(!empty($_REQUEST["type"]) && $_REQUEST["type"] == "php_info"){
             $data["php_ini"] = ini_get_all();
             ob_start();
             phpinfo();

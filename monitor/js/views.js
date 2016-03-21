@@ -1,6 +1,10 @@
 app.view.home = Backbone.View.extend({
     el: "#container",
     
+    events: {
+        'click a[data-site-refresh]': "refresh_site"
+    },
+    
     initialize: function() {
     },
     
@@ -21,13 +25,32 @@ app.view.home = Backbone.View.extend({
     },
     
     load_stats: function(id){
+        this.ping_site(id)
+        this.site_stats(id);
+    },
+    
+    site_stats: function(id){
+        var data = app.library.GetData("stat/basics", {id: id}).data;
+         
+        if(!data || !data.available){
+            this.$("div[data-site-id=" + id + "] .site_cpu").html("kann nicht ermittelt werden");
+            this.$("div[data-site-id=" + id + "] .site_ram").html("kann nicht ermittelt werden");
+            this.$("div[data-site-id=" + id + "] .site_storage").html("kann nicht ermittelt werden");
+            return false;
+        } 
+        
+        //TODO: setzen
+    },
+    
+    ping_site: function(id){
         var data = app.library.GetData("stat/ping", {id: id}).data;
         
         if(!data || !data.available){
-            //TODO: Fehler im Frontend markieren
-            return;
-        }
+            this.$("div[data-site-id=" + id + "]").addClass("home_row_error");
+            return false;
+        } 
         
+        this.$("div[data-site-id=" + id + "]").removeClass("home_row_error");
         this.$("div[data-site-id=" + id + "] .site_check").html(moment().format("HH:mm"));
         
         if(data.title){
@@ -39,6 +62,13 @@ app.view.home = Backbone.View.extend({
         if(data.icon){
             this.$("div[data-site-id=" + id + "] .site_icon").attr("src", data.icon);
         }
+        
+        return true;
+    },
+    
+    refresh_site: function(event){
+        var id = parseInt($(event.currentTarget).attr("data-site-refresh"));
+        this.load_stats(id);
     }
 });
 
@@ -198,4 +228,22 @@ app.view.sites_edit = Backbone.View.extend({
         
         return false;
     }
+});
+
+app.view.site = Backbone.View.extend({
+    el: "#container",
+    
+    initialize: function(route) {
+       this.id = 0;
+       if(route.params.id){
+          this.id = route.params.id; 
+       }
+    },
+    
+    render: function(){
+        var template_data = {};
+        template_data.site = app.library.GetData("sites/get", {id: this.id}).data[0];       
+        this.$el.html(app.library.renderTemplate("site.html", template_data));
+    },
+
 });

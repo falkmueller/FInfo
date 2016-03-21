@@ -4,7 +4,9 @@ namespace code\domain;
 
 class client
 {
-    public function pingPage($url){
+    public function pingPage($site_data){
+        $url = $site_data["url"];
+        
         try {
             $ch = curl_init($url);
             curl_setopt($ch, CURLOPT_HEADER, 0);
@@ -44,4 +46,13 @@ class client
 
         return null;
     }
+    
+    public function getBasics($site_data){
+        return null;
+    }
+    
+    private function callClient($client_url, $client_password, $type){
+        $crypterDomain = new \code\domain\crypter($client_password);
+    }
+    
 }
