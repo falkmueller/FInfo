@@ -62,7 +62,6 @@ app.view.home = Backbone.View.extend({
                     if(mount.used){ used += mount.used; }
                     devices.push(mount.device);
                 }
-                
             });
             
             var percent = Math.round(used / size * 100) /100;
