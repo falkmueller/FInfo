@@ -1,0 +1,29 @@
+<div class="row">
+    <div class="large-12 columns">
+        <h1><% if(site.id){ %>Seite bearbeiten<% } else {%>Seite anlegen<% } %></h1>
+    </div> 
+</div>
+
+<div class="row">
+    <div class="large-12 columns">
+        <form>
+            <label>Name
+                <input type="text" name="name" placeholder="Title der Seite" value="<%= site.name %>" required/>
+            </label>
+            
+            <label>Url
+                <input type="text" name="url" placeholder="Url der Seite (mit http)" value="<%= site.url %>" required/>
+            </label>
+            
+            <label>Client-Url
+                <input type="text" name="client_url" placeholder="Client-Url der Seite (mit http) z.B. http://test.de/client" value="<%= site.client_url %>" required/>
+            </label>
+            
+            <label>Client-Passwort
+                <input type="text" name="client_password" placeholder="Client-Passworr, identisch mit dem in der config.php des clients" value="<%= site.client_password %>" required/>
+            </label>
+            
+            <button type="submit" class="success button">Speichern</button>
+        </form>
+    </div> 
+</div>

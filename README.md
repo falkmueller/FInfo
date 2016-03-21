@@ -27,4 +27,5 @@
     - [notifyjs](https://notifyjs.com/)
 - used Style Framework:
     - [Foundation 6](http://foundation.zurb.com/)
+    - [Font Awesome](https://fortawesome.github.io/Font-Awesome/)
     - [chartist JS](https://gionkunz.github.io/chartist-js/)

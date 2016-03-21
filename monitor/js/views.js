@@ -105,3 +105,66 @@ app.view.user = Backbone.View.extend({
         return false;
     }
 });
+
+app.view.sites = Backbone.View.extend({
+    el: "#container",
+    
+     events: {
+        'click a[data-delete]': "delete",
+    },
+    
+    render: function(){
+        var template_data = {};
+        template_data.sites = app.library.GetData("sites/get").data;       
+        this.$el.html(app.library.renderTemplate("sites.html", template_data));
+    },
+    
+    delete: function(event){
+        var id = parseInt($(event.currentTarget).attr("data-delete"));
+        
+        app.library.GetData("sites/delete", {id: id});
+        app.router.navigate(app.router.buildUrl("sites"), true);
+    }
+});
+
+app.view.sites_edit = Backbone.View.extend({
+    el: "#container",
+    
+    initialize: function(route) {
+       this.id = 0;
+       if(route.params.id){
+          this.id = route.params.id; 
+       }
+    },
+    
+     events: {
+        'submit form': "save"
+    },
+    
+    render: function(){
+        var template_data = {};
+        
+        if(this.id){
+            template_data.site = app.library.GetData("sites/get", {id: this.id}).data[0];    
+        } else {
+            template_data.site = {};
+        }
+        
+        this.$el.html(app.library.renderTemplate("sites_edit.html", template_data));
+    },
+    
+    save: function(event){
+        var data = $( event.currentTarget ).serializeObject();
+        if(this.id){
+            data.id = this.id;
+        }
+        
+        var res = app.library.GetData("sites/save", data, 'POST');
+        
+        if(res.success){
+            app.router.navigate(app.router.buildUrl("sites"), true);
+        }
+        
+        return false;
+    }
+});

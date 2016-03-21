@@ -1,0 +1,25 @@
+<div class="row">
+    <div class="large-12 columns">
+        <h1>Seiten</h1>
+    </div> 
+</div>
+
+<div class="row">
+    <div class="large-12 columns">
+
+        <% _(sites).each(function(site) { %>
+                    
+            <div class="row">
+                <div class="small-6 large-4 columns"><%= site.name %></div>
+                <div class="small-6 large-4 columns"><%= site.url %></div>
+                <div class="small-6 large-4 columns text-right">
+                    <a href="javascript:;" data-delete="<%= site.id %>" class="alert button">löschen</a>
+                    <a href="<%= app.router.buildUrl('sites_edit', {id: site.id}) %>" class="success button">bearbeiten</a>
+                </div>
+            </div>
+        
+        <% }) %>
+        
+        <a href="<%= app.router.buildUrl('sites_edit') %>" class="success button">Neu anlegen</a>
+    </div> 
+</div>
