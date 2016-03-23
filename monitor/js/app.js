@@ -1,6 +1,7 @@
 var app = {
     view: {},
     library: {},
+    store: {},
     
     showOverlay: function(){
         $("#translate_waiting").show();
@@ -22,4 +23,5 @@ var app = {
         var topbar = new app.view.topbar();
         topbar.render();
     }
+    
 };

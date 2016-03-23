@@ -9,6 +9,7 @@ app._router = Backbone.Router.extend({
                 },  
                 
                 current: {},
+                currentView: null,        
                 
                 buildUrl:  function(view, params){
         
@@ -81,7 +82,6 @@ app._router = Backbone.Router.extend({
                 (new app.view.notFound(params)).render();
             },
             
-            currentView: null,
             
             routing: function (params) {
                 if (!app.view[params.view]) {return false; }

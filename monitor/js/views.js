@@ -6,6 +6,20 @@ app.view.home = Backbone.View.extend({
     },
     
     initialize: function() {
+        /*refhesh stats in view after 10 Minutes*/
+        if(!app.store.home_minute_handler){
+            app.store.home_minute_handler = function(){
+                if(app.store.minute_count > 0 && app.store.minute_count % 15 == 0){
+                    if(app.router.current.view == "home"){
+                        app.router.currentView.set_stats();
+                    } else {
+                        app.library.GetData("sites/fetchBasics")
+                    }
+                }
+            }
+            
+            $.subscribe("timer.minute", app.store.home_minute_handler);
+        }     
     },
     
     render: function(){
@@ -101,21 +115,27 @@ app.view.topbar = Backbone.View.extend({
     render: function(){
         this.$el.html(app.library.renderTemplate("topbar.html", {route: this.params}));
         $(document).foundation();
-        this.setTime();
+        this.setTime();  
     },
     
     setTime: function(){
         var me = this;
         
+        if(app.store.minute_count === undefined){
+            app.store.minute_count = 0;
+        } else {
+            app.store.minute_count++;
+        }
+        
         me.$("#time").html(moment().format("HH:mm"));
         
         if (this.timeout){
             clearTimeout(me.timeout);
-        } else {
-            $.publish('timer.minute');
-        }
+        } 
         
-        me.timeout = setTimeout(function() {me.setTime();}, 1000 * 60 );
+        $.publish('timer.minute');
+        
+        me.timeout = setTimeout(function() {me.setTime();}, 1000 * 1 );
     }
 });
 
