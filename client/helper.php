@@ -73,7 +73,7 @@ class app {
 
 
     public function run($request){
-        $linfo = new \Linfo\Linfo($settings);
+        $linfo = new \Linfo\Linfo($this->settings);
         $parser = $linfo->getParser();
         
         $data = array("available" => true);
@@ -81,10 +81,13 @@ class app {
         if(empty($_REQUEST["type"]) || $_REQUEST["type"] == "basics"){
             $data["ram"] = $parser->getRam();
             $data["load"] = $parser->getLoad();
-            $data["mount"] = $parser->getMounts();
+            
+            $spaceHelper = new space();
+            $data["space"] = $spaceHelper->getSpace($this->settings["pageDir"]);
         }
         
         if(empty($_REQUEST["type"])){
+            $data["mount"] = $parser->getMounts();
             $data["cpu"] = $parser->getCPU();
             $data["hd"] = $parser->getHD();
             $data["upTime"] = $parser->getUpTime();
@@ -127,6 +130,19 @@ class app {
                    $orig{$i}=$replace;        // check failed, use replacement
         }
         return $orig;
+    }
+    
+}
+
+class space{
+    
+    public function getSpace($folder){
+         
+        return array(
+            "total" => disk_total_space($folder),
+            "free" => disk_free_space($folder),
+            "folder" => $folder
+        );
     }
     
 }

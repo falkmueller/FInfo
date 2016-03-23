@@ -52,19 +52,8 @@ app.view.home = Backbone.View.extend({
             this.$("div[data-site-id=" + id + "] .site_ram").html("kann nicht ermittelt werden");            
         }
         
-        if(data.mount){
-            var size = 0;
-            var used = 0;
-            var devices = [];
-            $(data.mount).each(function(c, mount){
-                if(devices.indexOf(mount.device) < 0 && mount.device != 'none'){
-                    if(mount.size){ size += mount.size; }
-                    if(mount.used){ used += mount.used; }
-                    devices.push(mount.device);
-                }
-            });
-            
-            var percent = Math.round(used / size * 100) /100;
+        if(data.space){
+            var percent = Math.round((data.space.total - data.space.free) / data.space.total * 100) /100;
             this.$("div[data-site-id=" + id + "] .site_storage").html(percent + '%');
         } else {
             this.$("div[data-site-id=" + id + "] .site_storage").html("kann nicht ermittelt werden");

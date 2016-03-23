@@ -6,12 +6,13 @@
 /*
  * Usual configuration
  */
+$settings['password'] = "p4ss4info";
+$settings["pageDir"] = __dir__.'/..';
 $settings['byte_notation'] = 1024; // Either 1024 or 1000; defaults to 1024
 $settings['dates'] = 'm/d/y h:i A (T)'; // Format for dates shown. See php.net/date for syntax
 $settings['language'] = 'de'; // Refer to the lang/ folder for supported lanugages
 $settings['icons'] = true; // simple icons 
 $settings['theme'] = 'photon'; // Theme file (layout/theme_$n.css). Look at the contents of the layout/ folder for other themes.
-$settings['password'] = "p4ss4info";
 
 
 /*
