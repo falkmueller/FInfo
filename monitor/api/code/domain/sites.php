@@ -5,14 +5,19 @@ namespace code\domain;
 class sites
 {
     
-    public function get($id = 0){
+    public function get($id = 0, $with_secred_data = true){
         $db = \code\core\database::getInstance();
         
         if($id){
             $db->where ("id", $id);
         }
         
-        return $db->get ("sites");
+        $cols = Array ("id", "name", "url");
+        if ($with_secred_data){
+            $cols[] = "client_url";
+            $cols[] = "client_password";
+        }
+        return $db->get ("sites", null, $cols);
     }
 
 

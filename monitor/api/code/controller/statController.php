@@ -36,7 +36,7 @@ class statController {
         return $response;
     }
     
-    public function fetchBasics(){
+    public function fetchbasics(){
         $sitesDomain = new \code\domain\sites();
         $clientDomain = new \code\domain\client();
         $sites = $sitesDomain->get();

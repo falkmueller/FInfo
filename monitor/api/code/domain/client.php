@@ -61,7 +61,7 @@ class client
         $data =  $this->callClient($site_data["client_url"], $site_data["client_password"], "basics"); 
         
         //if last entity in DB older then 10 Minutes then Save current request
-        if (!$entity || $entity["timestamp"] + (10 * 60) <= time()){
+        if ($data && (!$entity || $entity["timestamp"] + (10 * 60) <= time())){
             $this->insertInDB(array(
                 "site_id" => $site_data["id"],
                 "type" => "basics",

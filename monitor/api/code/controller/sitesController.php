@@ -11,9 +11,9 @@ class sitesController {
         
         $sitesDomain = new \code\domain\sites();
         if(!empty($_GET["id"]) && intval($_GET["id"]) > 0){
-            $response->data = $sitesDomain->get(intval($_GET["id"]));
+            $response->data = $sitesDomain->get(intval($_GET["id"]), false);
         } else {
-            $response->data = $sitesDomain->get();
+            $response->data = $sitesDomain->get(0, false);
         }
         
         return $response;

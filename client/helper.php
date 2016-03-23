@@ -72,21 +72,36 @@ class app {
     }
 
 
-    public function run($request){
-        $linfo = new \Linfo\Linfo($this->settings);
-        $parser = $linfo->getParser();
+    public function run(){
+        try {
+            $linfo = new \Linfo\Linfo($this->settings);
+            $parser = $linfo->getParser();
+        } catch (Exception $ex) {
+            
+        }
         
         $data = array("available" => true);
 
         if(empty($_REQUEST["type"]) || $_REQUEST["type"] == "basics"){
-            $data["ram"] = $parser->getRam();
-            $data["load"] = $parser->getLoad();
             
+            if(!empty($parser)){
+                $data["ram"] = $parser->getRam();
+                $data["load"] = $parser->getLoad();
+            }
+            else {
+                $load =  sys_getloadavg();
+               $data["load"] = array(
+                   "now" => $load[0],
+                   "5min" => $load[1],
+                   "15min" => $load[2],
+               );
+            }
+
             $spaceHelper = new space();
             $data["space"] = $spaceHelper->getSpace($this->settings["pageDir"]);
         }
         
-        if(empty($_REQUEST["type"])){
+        if(!empty($parser) && empty($_REQUEST["type"])){
             $data["mount"] = $parser->getMounts();
             $data["cpu"] = $parser->getCPU();
             $data["hd"] = $parser->getHD();

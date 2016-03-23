@@ -13,7 +13,7 @@ app.view.home = Backbone.View.extend({
                     if(app.router.current.view == "home"){
                         app.router.currentView.set_stats();
                     } else {
-                        app.library.GetData("sites/fetchBasics")
+                        app.library.GetData("sites/fetchbasics")
                     }
                 }
             }
@@ -67,8 +67,15 @@ app.view.home = Backbone.View.extend({
         }
         
         if(data.space){
-            var percent = Math.round((data.space.total - data.space.free) / data.space.total * 100) /100;
-            this.$("div[data-site-id=" + id + "] .site_storage").html(percent + '%');
+            if (data.space.total && data.space.free){
+                var percent = Math.round((data.space.total - data.space.free) / data.space.total * 100) /100;
+                this.$("div[data-site-id=" + id + "] .site_storage").html(percent + '%');
+            }
+            else if (data.space.free){
+                this.$("div[data-site-id=" + id + "] .site_storage").html(parseInt(data.space.free / 1024 / 1024) + ' MB frei');
+            } else {
+                this.$("div[data-site-id=" + id + "] .site_storage").html("kann nicht ermittelt werden");
+            }
         } else {
             this.$("div[data-site-id=" + id + "] .site_storage").html("kann nicht ermittelt werden");
         }
@@ -135,7 +142,7 @@ app.view.topbar = Backbone.View.extend({
         
         $.publish('timer.minute');
         
-        me.timeout = setTimeout(function() {me.setTime();}, 1000 * 1 );
+        me.timeout = setTimeout(function() {me.setTime();}, 1000 * 60 );
     }
 });
 
