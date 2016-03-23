@@ -60,7 +60,7 @@ app.view.home = Backbone.View.extend({
         }
         
         if(data.ram && data.ram.total && data.ram.free){
-            var percent = Math.round((data.ram.total - data.ram.free) / data.ram.total * 100) /100;
+            var percent = Math.round((data.ram.total - data.ram.free) / data.ram.total * 100);
             this.$("div[data-site-id=" + id + "] .site_ram").html(percent + '%');
         } else {
             this.$("div[data-site-id=" + id + "] .site_ram").html("kann nicht ermittelt werden");            
