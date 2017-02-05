@@ -1,6 +1,6 @@
 #FInfo PHP Server Monitoring
 
-![Example Screen](http://code.falk-m.de/git_images/finfo_example.png)
+![Screnshot](screenshot.png)
 
 ##Installation
 
